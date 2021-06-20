@@ -6,4 +6,6 @@
     <string name="subhead_enter_phone">Enter Your Phone Number</string>
     <string name="subhead_enter_otp">Enter The OTP</string>
     <string name="str_100">100</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Nothing to see here</string>
 </resources>

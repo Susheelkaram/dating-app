@@ -1,30 +1,64 @@
 package com.susheelkaram.dating_app.ui;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.google.android.material.badge.BadgeDrawable;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.susheelkaram.dating_app.R;
+import com.susheelkaram.dating_app.data.UserRepository;
+import com.susheelkaram.dating_app.databinding.ActivityEnterOtpActivityBinding;
 import com.susheelkaram.dating_app.databinding.ActivityNotesActivtyBinding;
-import com.susheelkaram.dating_app.ui.components.ProfileGlimpseData;
+import com.susheelkaram.dating_app.ui.adapter.HomePagerAdapter;
+import com.susheelkaram.dating_app.ui.viewmodel.NotesViewModel;
+import com.susheelkaram.dating_app.ui.viewmodel.NotesViewModelFactory;
+import com.susheelkaram.dating_app.ui.viewmodel.VerifyOtpViewModel;
+import com.susheelkaram.dating_app.ui.viewmodel.VerifyOtpViewModelFactory;
+
+import org.jetbrains.annotations.NotNull;
 
 public class NotesActivty extends AppCompatActivity {
+    public static String ARG_TOKEN = "token";
+
     ImageView profileImg;
     ActivityNotesActivtyBinding binding;
+    NotesViewModel viewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_notes_activty);
+        viewModel = new ViewModelProvider(this, new NotesViewModelFactory(UserRepository.getInstance())).get(NotesViewModel.class);
+        String token = getIntent().getStringExtra(ARG_TOKEN);
+        viewModel.token = token;
         initializeUi();
     }
 
     void initializeUi() {
-        binding.profileCard.setData(new ProfileGlimpseData("Meena, 23", "Tap to review 50+ notes", null, R.drawable.photo_1));
-        binding.profileCardOne.setData(new ProfileGlimpseData("Teena", "", null, R.drawable.photo_2));
-        binding.profileCardTwo.setData(new ProfileGlimpseData("Beena", "", null, R.drawable.photo_3));
+        binding.pagerScreens.setAdapter(new HomePagerAdapter(this));
+        binding.bottomNavMain.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.menu_discover:
+                                binding.pagerScreens.setCurrentItem(0, false);
+                                break;
+                            default:
+                                binding.pagerScreens.setCurrentItem(1, false);
+                                break;
+                        }
+                        return true;
+                    }
+                }
+        );
+
         binding.bottomNavMain.getOrCreateBadge(R.id.menu_notes).setNumber(9);
         BadgeDrawable matchesBadge = binding.bottomNavMain.getOrCreateBadge(R.id.menu_matches);
         matchesBadge.setMaxCharacterCount(3);

@@ -8,122 +8,12 @@
         android:layout_height="match_parent"
         tools:context=".ui.NotesActivty">
 
-        <LinearLayout
-            android:id="@+id/layout_content"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            android:paddingHorizontal="20dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/bottom_nav_main">
-
-            <TextView
-                style="@style/screenTitleTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="Notes"
-                android:textAlignment="center" />
-
-            <TextView
-                android:id="@+id/txt_subhead"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:text="Personal messages to you"
-                android:textAlignment="center" />
-
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:scrollbarSize="0dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <com.susheelkaram.dating_app.ui.components.ProfileCardView
-                        android:id="@+id/profile_card"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp"
-                        app:cardCornerRadius="10dp"
-                        app:elevation="0dp" />
-
-                    <LinearLayout
-                        android:id="@+id/layout_upgrade_cta"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="bottom"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                style="@style/bodyTitleStyle"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Interested In You" />
-
-                            <TextView
-                                style="@style/bodySubTitleStyle"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Premium members can view all their likes at once"
-                                android:textColor="@color/lightGray" />
-                        </LinearLayout>
-
-                        <com.google.android.material.button.MaterialButton
-                            style="@style/upgradeButtonStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="24dp"
-                            android:text="Upgrade" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginBottom="12dp"
-                        android:orientation="horizontal">
-
-                        <com.susheelkaram.dating_app.ui.components.ProfileCardView
-                            android:id="@+id/profile_card_one"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_weight="1"
-                            app:blurImage="true"
-                            app:viewRatioX="2"
-                            app:viewRatioY="3"
-                            app:titleTextSize="18sp"
-                            app:cardCornerRadius="10dp" />
-
-                        <com.susheelkaram.dating_app.ui.components.ProfileCardView
-                            android:id="@+id/profile_card_two"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            app:blurImage="true"
-                            app:viewRatioX="2"
-                            app:viewRatioY="3"
-                            app:titleTextSize="18sp"
-                            app:cardCornerRadius="10dp" />
-
-                    </LinearLayout>
-                </LinearLayout>
-            </ScrollView>
-        </LinearLayout>
-
+       <androidx.viewpager2.widget.ViewPager2
+           android:id="@+id/pager_screens"
+           android:layout_width="match_parent"
+           android:layout_height="0dp"
+           app:layout_constraintTop_toTopOf="parent"
+           app:layout_constraintBottom_toTopOf="@id/bottom_nav_main"/>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_nav_main"
