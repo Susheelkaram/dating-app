@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ProfileCardView">
+        <attr name="viewRatioX" format="integer"/>
+        <attr name="viewRatioY" format="integer"/>
+        <attr name="titleTextSize" format="dimension"/>
+        <attr name="subtitleTextSize" format="dimension"/>
+        <attr name="imgSrc" format="reference"/>
+        <attr name="blurImage" format="boolean"/>
+    </declare-styleable>
+</resources>

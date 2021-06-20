@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_discover"
+        android:icon="@drawable/ic_discover_1"
+        android:title="Discover" />
+    <item
+        android:id="@+id/menu_notes"
+        android:icon="@drawable/ic_notes"
+        android:title="Notes" />
+    <item
+        android:id="@+id/menu_matches"
+        android:icon="@drawable/ic_matches"
+        android:title="Matches" />
+    <item
+        android:id="@+id/menu_profile"
+        android:icon="@drawable/ic_profile"
+        android:title="Profile" />
+</menu>
