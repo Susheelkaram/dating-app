@@ -83,11 +83,8 @@ public class ProfileCardView extends CardView {
             transformations = new MultiTransformation<Bitmap>(new CenterCrop());
 
         if (profileGlimpseData.imageUrl != null || profileGlimpseData.imageSrc != 0) {
-            // TODO: Revert diskCacheStrategy and skipMemoryCache after testing
             Glide.with(this)
                     .load((profileGlimpseData.imageUrl != null) ? profileGlimpseData.imageUrl : profileGlimpseData.imageSrc)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
                     .apply(bitmapTransform(transformations))
                     .into(binding.imgProfilePic);
         }

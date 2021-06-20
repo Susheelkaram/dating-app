@@ -49,9 +49,9 @@ public class VerifyOtpViewModel extends ViewModel {
     }
 
     public void verifyOtp() {
-        stateLiveData.postValue(new UiState(State.Loading, null, null));
-
         if(otp != null && otp.length() == 4) {
+            stateLiveData.postValue(new UiState(State.Loading, null, null));
+
             userRepository.verifyOtp(new ConfirmOtpData(phone, otp))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -65,7 +65,7 @@ public class VerifyOtpViewModel extends ViewModel {
                         public void onSuccess(@NotNull AuthResponse authResponse) {
                             stateLiveData.postValue(new UiState(State.Success, authResponse, null));
                             if (authResponse.token != null) {
-                                eventsLiveData.setValue(new UiEvent<String>(UiEventType.Toast, "Logged in successfully!" + authResponse.token));
+                                eventsLiveData.setValue(new UiEvent<String>(UiEventType.Toast, "Logged in successfully!"));
                                 eventsLiveData.setValue(new UiEvent<String>(UiEventType.Navigate, authResponse.token));
                             } else {
                                 eventsLiveData.setValue(new UiEvent<String>(UiEventType.Toast, "Invalid OTP"));
