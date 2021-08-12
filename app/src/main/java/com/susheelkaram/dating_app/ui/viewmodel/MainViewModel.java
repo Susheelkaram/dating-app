@@ -1,12 +1,8 @@
 package com.susheelkaram.dating_app.ui.viewmodel;
 
-import android.media.MediaRouter;
-
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.susheelkaram.dating_app.data.UserRepository;
 import com.susheelkaram.dating_app.data.api.model.GenericResponse;
@@ -17,12 +13,6 @@ import com.susheelkaram.dating_app.ui.model.UiEventType;
 import com.susheelkaram.dating_app.ui.model.UiState;
 import com.susheelkaram.dating_app.util.SingleLiveEvent;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Observer;
-
-import io.reactivex.CompletableObserver;
-import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;

@@ -1,25 +1,22 @@
 package com.susheelkaram.dating_app.ui;
 
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.widget.ImageView;
-
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.susheelkaram.dating_app.R;
 import com.susheelkaram.dating_app.data.UserRepository;
-import com.susheelkaram.dating_app.databinding.ActivityEnterOtpActivityBinding;
 import com.susheelkaram.dating_app.databinding.ActivityNotesActivtyBinding;
 import com.susheelkaram.dating_app.ui.adapter.HomePagerAdapter;
 import com.susheelkaram.dating_app.ui.viewmodel.NotesViewModel;
 import com.susheelkaram.dating_app.ui.viewmodel.NotesViewModelFactory;
-import com.susheelkaram.dating_app.ui.viewmodel.VerifyOtpViewModel;
-import com.susheelkaram.dating_app.ui.viewmodel.VerifyOtpViewModelFactory;
 
 import org.jetbrains.annotations.NotNull;
 

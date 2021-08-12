@@ -7,7 +7,6 @@ import com.susheelkaram.dating_app.data.api.model.GenericResponse;
 import com.susheelkaram.dating_app.data.api.model.LoginData;
 import com.susheelkaram.dating_app.data.api.model.ProfileResponse;
 
-import io.reactivex.Completable;
 import io.reactivex.Single;
 
 /**

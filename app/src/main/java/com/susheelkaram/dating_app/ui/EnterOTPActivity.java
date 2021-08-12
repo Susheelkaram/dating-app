@@ -1,26 +1,21 @@
 package com.susheelkaram.dating_app.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.susheelkaram.dating_app.MainActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.susheelkaram.dating_app.R;
 import com.susheelkaram.dating_app.data.UserRepository;
 import com.susheelkaram.dating_app.data.api.model.AuthResponse;
-import com.susheelkaram.dating_app.data.api.model.GenericResponse;
 import com.susheelkaram.dating_app.databinding.ActivityEnterOtpActivityBinding;
-import com.susheelkaram.dating_app.databinding.ActivityMainBinding;
 import com.susheelkaram.dating_app.ui.model.UiEvent;
 import com.susheelkaram.dating_app.ui.model.UiState;
-import com.susheelkaram.dating_app.ui.viewmodel.MainViewModel;
-import com.susheelkaram.dating_app.ui.viewmodel.MainViewModelFactory;
 import com.susheelkaram.dating_app.ui.viewmodel.VerifyOtpViewModel;
 import com.susheelkaram.dating_app.ui.viewmodel.VerifyOtpViewModelFactory;
 

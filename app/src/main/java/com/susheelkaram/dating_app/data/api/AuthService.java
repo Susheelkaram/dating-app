@@ -5,7 +5,6 @@ import com.susheelkaram.dating_app.data.api.model.ConfirmOtpData;
 import com.susheelkaram.dating_app.data.api.model.GenericResponse;
 import com.susheelkaram.dating_app.data.api.model.LoginData;
 
-import io.reactivex.Completable;
 import io.reactivex.Single;
 import retrofit2.http.Body;
 import retrofit2.http.POST;

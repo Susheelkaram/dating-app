@@ -1,5 +1,7 @@
 package com.susheelkaram.dating_app.ui.components;
 
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -14,15 +16,12 @@ import androidx.cardview.widget.CardView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.MultiTransformation;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.susheelkaram.dating_app.R;
 import com.susheelkaram.dating_app.databinding.ItemUserProfileBinding;
 import com.susheelkaram.dating_app.util.UiUtils;
 
 import org.jetbrains.annotations.NotNull;
-
-import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 /**
  * Created by Susheel Kumar Karam
