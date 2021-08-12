@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -36,6 +37,9 @@ public class VerifyOtpViewModel extends ViewModel {
     UserRepository userRepository;
     SingleLiveEvent<UiEvent<String>> eventsLiveData = new SingleLiveEvent<UiEvent<String>>();
 
+    CompositeDisposable disposableBag = new CompositeDisposable();
+
+
     public VerifyOtpViewModel(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -49,39 +53,34 @@ public class VerifyOtpViewModel extends ViewModel {
     }
 
     public void verifyOtp() {
-        if(otp != null && otp.length() == 4) {
+        if (otp != null && otp.length() == 4) {
             stateLiveData.postValue(new UiState(State.Loading, null, null));
 
-            userRepository.verifyOtp(new ConfirmOtpData(phone, otp))
+            Disposable verifyOtpDisposable = userRepository.verifyOtp(new ConfirmOtpData(phone, otp))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new SingleObserver<AuthResponse>() {
-                        @Override
-                        public void onSubscribe(@NotNull Disposable d) {
-
+                    .subscribe(authResponse -> {
+                        stateLiveData.postValue(new UiState(State.Success, authResponse, null));
+                        if (authResponse.token != null) {
+                            eventsLiveData.setValue(new UiEvent<String>(UiEventType.Toast, "Logged in successfully!"));
+                            eventsLiveData.setValue(new UiEvent<String>(UiEventType.Navigate, authResponse.token));
+                        } else {
+                            eventsLiveData.setValue(new UiEvent<String>(UiEventType.Toast, "Invalid OTP"));
                         }
-
-                        @Override
-                        public void onSuccess(@NotNull AuthResponse authResponse) {
-                            stateLiveData.postValue(new UiState(State.Success, authResponse, null));
-                            if (authResponse.token != null) {
-                                eventsLiveData.setValue(new UiEvent<String>(UiEventType.Toast, "Logged in successfully!"));
-                                eventsLiveData.setValue(new UiEvent<String>(UiEventType.Navigate, authResponse.token));
-                            } else {
-                                eventsLiveData.setValue(new UiEvent<String>(UiEventType.Toast, "Invalid OTP"));
-                            }
-                        }
-
-                        @Override
-                        public void onError(@NotNull Throwable e) {
-                            stateLiveData.postValue(new UiState(State.Failure, null, e.getMessage()));
-                            eventsLiveData.setValue(new UiEvent<String>(UiEventType.Toast, e.getMessage()));
-                        }
+                    }, e -> {
+                        stateLiveData.postValue(new UiState(State.Failure, null, e.getMessage()));
+                        eventsLiveData.setValue(new UiEvent<String>(UiEventType.Toast, e.getMessage()));
                     });
-        }
-        else {
+            disposableBag.add(verifyOtpDisposable);
+        } else {
             eventsLiveData.setValue(new UiEvent<String>(UiEventType.Toast, "Enter valid OTP"));
         }
+    }
+
+    @Override
+    protected void onCleared() {
+        disposableBag.clear();
+        super.onCleared();
     }
 }
 

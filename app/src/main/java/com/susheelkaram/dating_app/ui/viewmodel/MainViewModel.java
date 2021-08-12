@@ -24,6 +24,7 @@ import java.util.Observer;
 import io.reactivex.CompletableObserver;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -34,10 +35,11 @@ import io.reactivex.schedulers.Schedulers;
 public class MainViewModel extends ViewModel {
     public String countryCode = "+91";
     public String phone;
+    CompositeDisposable disposableBag = new CompositeDisposable();
 
     MutableLiveData<UiState<GenericResponse>> stateLiveData = new MutableLiveData<UiState<GenericResponse>>();
     UserRepository userRepository;
-    SingleLiveEvent<UiEvent<String>> eventsLiveData =new SingleLiveEvent<UiEvent<String>>();
+    SingleLiveEvent<UiEvent<String>> eventsLiveData = new SingleLiveEvent<UiEvent<String>>();
 
     public LiveData<UiState<GenericResponse>> getState() {
         return (LiveData<UiState<GenericResponse>>) stateLiveData;
@@ -55,32 +57,29 @@ public class MainViewModel extends ViewModel {
         stateLiveData.postValue(new UiState(State.Loading, null, null));
 
         String fullPhone = (countryCode + phone).replace(" ", "");
-        userRepository.requestOtp(new LoginData(fullPhone))
+        Disposable requestOtpDisposable = userRepository.requestOtp(new LoginData(fullPhone))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<GenericResponse>() {
-                    @Override
-                    public void onSubscribe(@NotNull Disposable d) {
+                .subscribe(genericResponse -> {
+                    stateLiveData.postValue(new UiState(State.Success, genericResponse, null));
+                    if (genericResponse.status == true) {
+                        eventsLiveData.setValue(new UiEvent<String>(UiEventType.Toast, "OTP sent successfully!"));
+                        eventsLiveData.setValue(new UiEvent<String>(UiEventType.Navigate, fullPhone));
+                    } else {
+                        eventsLiveData.setValue(new UiEvent<String>(UiEventType.Toast, "Enter valid phone"));
                     }
+                }, error -> {
+                    stateLiveData.postValue(new UiState(State.Failure, null, error.getMessage()));
+                    eventsLiveData.setValue(new UiEvent<String>(UiEventType.Toast, error.getMessage()));
 
-                    @Override
-                    public void onSuccess(@NotNull GenericResponse genericResponse) {
-                        stateLiveData.postValue(new UiState(State.Success, genericResponse, null));
-                        if(genericResponse.status == true){
-                            eventsLiveData.setValue(new UiEvent<String>(UiEventType.Toast, "OTP sent successfully!"));
-                            eventsLiveData.setValue(new UiEvent<String>(UiEventType.Navigate, fullPhone));
-                        }
-                        else  {
-                            eventsLiveData.setValue(new UiEvent<String>(UiEventType.Toast, "Enter valid phone"));
-                        }
-                    }
-
-                    @Override
-                    public void onError(@NotNull Throwable e) {
-                        stateLiveData.postValue(new UiState(State.Failure, null, e.getMessage()));
-                        eventsLiveData.setValue(new UiEvent<String>(UiEventType.Toast, e.getMessage()));
-                    }
                 });
+        disposableBag.add(requestOtpDisposable);
+    }
+
+    @Override
+    protected void onCleared() {
+        disposableBag.clear();
+        super.onCleared();
     }
 }
 

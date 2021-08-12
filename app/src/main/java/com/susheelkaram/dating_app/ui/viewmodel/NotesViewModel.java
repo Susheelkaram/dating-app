@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -34,6 +35,8 @@ public class NotesViewModel extends ViewModel{
     UserRepository userRepository;
     SingleLiveEvent<UiEvent<String>> eventsLiveData =new SingleLiveEvent<UiEvent<String>>();
 
+    CompositeDisposable disposableBag = new CompositeDisposable();
+
     public NotesViewModel(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -47,26 +50,23 @@ public class NotesViewModel extends ViewModel{
     }
 
     public void loadProfiles() {
-        userRepository.getProfiles(token)
+        Disposable getProfilesDisposable = userRepository.getProfiles(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<ProfileResponse>() {
-                    @Override
-                    public void onSubscribe(@NotNull Disposable d) {
+                .subscribe(profileResponse -> {
+                    stateLiveData.postValue(new UiState(State.Success, profileResponse, null));
+                }, e -> {
+                    stateLiveData.postValue(new UiState(State.Failure, null, e.getMessage()));
+                    eventsLiveData.setValue(new UiEvent<String>(UiEventType.Toast, e.getMessage()));
 
-                    }
-
-                    @Override
-                    public void onSuccess(@NotNull ProfileResponse profileResponse) {
-                        stateLiveData.postValue(new UiState(State.Success, profileResponse, null));
-                    }
-
-                    @Override
-                    public void onError(@NotNull Throwable e) {
-                        stateLiveData.postValue(new UiState(State.Failure, null, e.getMessage()));
-                        eventsLiveData.setValue(new UiEvent<String>(UiEventType.Toast, e.getMessage()));
-                    }
                 });
+        disposableBag.add(getProfilesDisposable);
+    }
+
+    @Override
+    protected void onCleared() {
+        disposableBag.clear();
+        super.onCleared();
     }
 }
 
